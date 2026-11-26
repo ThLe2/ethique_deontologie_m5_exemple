@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Exemple commenté — Une entrée en relation trop rapide</title>
+<style>
+:root{--prune:#8C1E70;--prune-fonce:#5E1349;--prune-clair:#F4E6EE;--accent:#C77BAA;
+ --vert:#283C28;--gris:#3C3C3C;--gris-moyen:#8A7A85;--filet:#E8DCE5;--creme:#FAF6F8;
+ --ok:#2F7A4F;--ko:#B23B3B;--amb:#B5852A;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--creme);color:var(--gris);
+ font-family:"Nunito","Segoe UI",Helvetica,Arial,sans-serif;font-size:16px;line-height:1.62}
+.wrap{max-width:900px;margin:0 auto;padding:0 18px 60px}
+header.bandeau{background:var(--prune-fonce);color:#fff;padding:18px 0;border-bottom:4px solid var(--accent)}
+header.bandeau .wrap{padding-bottom:0}
+.chapitre{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:#EAD3E3}
+.chapitre span{color:var(--accent);margin:0 6px}
+h1{font-family:Georgia,"Times New Roman",serif;font-size:27px;line-height:1.25;margin:8px 0 4px;color:#fff}
+.sous{color:#EAD3E3;font-size:14.5px;margin:0}
+h2{font-family:Georgia,"Times New Roman",serif;font-size:20px;color:var(--prune-fonce);
+ margin:34px 0 0;padding-bottom:8px;border-bottom:2px solid var(--filet)}
+h2 .num{color:var(--accent);margin-right:8px}
+h3{font-size:15px;color:var(--vert);margin:20px 0 8px;letter-spacing:.02em}
+.carte{background:#fff;border:1px solid var(--filet);border-radius:10px;padding:20px 22px;margin:18px 0;
+ box-shadow:0 1px 2px rgba(94,19,73,.05)}
+.enc{background:var(--prune-clair);border-left:5px solid var(--prune);padding:14px 18px;
+ border-radius:0 8px 8px 0;margin:18px 0;font-size:15.2px}
+.enc .t{display:block;font-size:11.5px;letter-spacing:.11em;text-transform:uppercase;
+ font-weight:800;color:var(--prune-fonce);margin-bottom:6px}
+.enc.al{background:#FBF4F4;border-left-color:var(--ko)}.enc.al .t{color:var(--ko)}
+.enc.ci{background:#FCF8F0;border-left-color:var(--amb)}.enc.ci .t{color:#8A6418}
+.situ{background:#FCF9FB;border:1px dashed var(--filet);border-radius:8px;padding:16px 18px;margin:16px 0;font-size:15.2px}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.duo>div{background:#fff;border:1px solid var(--filet);border-radius:9px;padding:15px 17px;font-size:14.8px}
+.duo .h{font-weight:800;color:var(--prune-fonce);margin-bottom:7px;font-size:14.5px}
+.tri{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
+.tri>div{background:#fff;border:1px solid var(--filet);border-radius:9px;padding:14px 15px;font-size:14.3px}
+.quad{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}
+.quad>div{background:#fff;border:1px solid var(--filet);border-radius:9px;padding:12px 13px;font-size:13.6px}
+.quad .h{font-weight:800;color:var(--prune-fonce);margin-bottom:6px;font-size:13px;
+ text-transform:uppercase;letter-spacing:.04em}
+.tri .h{font-weight:800;color:var(--prune-fonce);margin-bottom:6px;font-size:13.5px;
+ text-transform:uppercase;letter-spacing:.05em}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14.8px;background:#fff}
+th,td{border:1px solid var(--filet);padding:9px 12px;text-align:left}
+thead th{background:var(--prune-clair);color:var(--prune-fonce);font-size:13.5px}
+tbody th{font-weight:600;color:var(--gris)}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.tot td,tr.tot th{background:#FBF3F8;font-weight:800;color:var(--prune-fonce)}
+.dl{display:inline-flex;align-items:center;gap:9px;background:var(--prune);color:#fff;text-decoration:none;
+ padding:11px 20px;border-radius:8px;font-weight:700;font-size:15px;margin:20px 0 4px}
+.dl:hover{background:var(--prune-fonce)}
+ol.q{padding-left:0;list-style:none;counter-reset:q}
+ol.q>li{margin:16px 0;padding-left:38px;position:relative}
+ol.q>li::before{counter-increment:q;content:counter(q);position:absolute;left:0;top:1px;
+ width:26px;height:26px;border-radius:50%;background:var(--prune-clair);color:var(--prune-fonce);
+ font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center}
+b,strong{color:var(--vert)}
+footer{text-align:center;font-size:12.5px;color:var(--gris-moyen);padding:26px 18px 12px;
+ border-top:1px solid var(--filet);margin-top:44px}
+@media(max-width:860px){.quad{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.duo,.tri,.quad{grid-template-columns:1fr}h1{font-size:22px}}
+@media print{body{background:#fff}.dl{display:none}header.bandeau{background:#5E1349 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+
+.mail{background:#fff;border:1px solid var(--filet);border-radius:10px;padding:0;margin:16px 0;overflow:hidden}
+.mail .ent{background:#F7F1F5;border-bottom:1px solid var(--filet);padding:10px 16px;font-size:14px}
+.mail .ent b{color:var(--prune-fonce)}
+.mail .txt{padding:14px 18px;font-size:15.2px}
+.mail p{margin:0 0 10px}
+.err{background:#FDECEC;border-bottom:2px solid var(--ko);padding:0 2px;border-radius:3px}
+.cor{display:none;background:#E9F6EE;border-bottom:2px solid var(--ok);padding:0 2px;border-radius:3px;color:var(--ok);font-weight:700}
+.nf{font-size:11px;vertical-align:super;font-weight:800;color:var(--ko)}
+body.vu .err{text-decoration:line-through;background:none;border:0;color:var(--gris-moyen)}
+body.vu .cor{display:inline}
+.btn{display:inline-flex;align-items:center;gap:9px;background:var(--prune);color:#fff;border:0;
+ padding:12px 22px;border-radius:8px;font-family:inherit;font-weight:800;font-size:15px;cursor:pointer}
+.btn:hover{background:var(--prune-fonce)}
+.liste{display:none}body.vu .liste{display:block}
+</style></head>
+<body>
+<header class="bandeau"><div class="wrap">
+ <div class="chapitre">Éthique et déontologie <span>/</span> Module 5</div><h1>Une entrée en relation trop rapide</h1><p class="sous">Exemple commenté — LCB-FT : les dispositifs</p>
+</div></header>
+<div class="wrap">
+
+<h2><span class="num">1 ·</span>La situation</h2>
+<div class="carte">
+<p>Thomas Lefèvre est chargé d'affaires professionnels. M. Ravel, chef d'entreprise, veut ouvrir un compte pour sa holding et financer l'achat d'un immeuble de bureaux. Il est pressé, et Thomas veut signer avant la fin du mois. Lisez ce que dit Thomas, repérez les six phrases à corriger, puis affichez la correction.</p>
+<div class="mail">
+ <div class="ent"><b>Rendez-vous d'entrée en relation — propos de Thomas Lefèvre</b></div>
+ <div class="txt"><p>« Merci d'être venu, Monsieur Ravel. On va faire simple. »</p><p>« <span class="err">Pas besoin de votre pièce d'identité : je vous ai vu au journal régional, je sais qui vous êtes.</span> <span class="cor">J'ai besoin de votre pièce d'identité en cours de validité : je dois vous identifier et vérifier votre identité avant d'entrer en relation.</span><span class="nf">1</span> »</p><p>« <span class="err">Votre holding a trois associés à 30 %, 30 % et 40 % ? Inutile de savoir qui se cache derrière.</span> <span class="cor">Chaque associé détient plus de 25 % : je dois identifier ces trois bénéficiaires effectifs, personnes physiques, et vérifier le registre.</span><span class="nf">2</span> »</p><p>« <span class="err">Votre épouse est députée ? Ça ne change rien pour vous.</span> <span class="cor">Le conjoint d'une personne politiquement exposée l'est aussi : votre dossier suit une vigilance renforcée et sera validé par la direction.</span><span class="nf">3</span> »</p><p>« <span class="err">Votre associé figure sur la liste des gels d'avoirs ? On verra à la fin du mois.</span> <span class="cor">Le gel s'applique sans délai : je bloque les fonds concernés et l'établissement informe immédiatement la direction générale du Trésor.</span><span class="nf">4</span> »</p><p>« <span class="err">Et ce virement de 400 000 € venu de l'étranger, je vais devoir le déclarer à Tracfin, je préfère vous prévenir.</span> <span class="cor">Pour ce virement de 400 000 €, j'ai besoin de justificatifs de l'origine des fonds.</span><span class="nf">5</span> »</p><p>« <span class="err">Je ferai la déclaration moi-même ce soir, et j'en mettrai une copie dans votre dossier.</span> <span class="cor">Je transmets mon analyse au correspondant Tracfin de l'établissement ; rien n'apparaît dans le dossier du client.</span><span class="nf">6</span> »</p></div>
+</div>
+<button class="btn" id="voir" onclick="document.body.classList.add('vu');this.style.display='none'">Afficher la correction</button>
+</div>
+
+<div class="liste">
+<h2><span class="num">2 ·</span>Les corrections, une par une</h2>
+<div class="carte">
+<table><thead><tr><th>N°</th><th>Point</th><th>Le raisonnement</th></tr></thead><tbody><tr><td><b>1</b></td><td>L'identité non vérifiée</td><td>Avant d'entrer en relation, l'établissement <b>identifie</b> le client et <b>vérifie</b> son identité sur un document officiel en cours de validité (art. L. 561-5 et R. 561-5 CMF). La notoriété ne remplace pas la pièce.</td></tr><tr><td><b>2</b></td><td>Le bénéficiaire effectif ignoré</td><td>Est bénéficiaire effectif toute <b>personne physique</b> qui détient, directement ou indirectement, <b>plus de 25 %</b> du capital ou des droits de vote, ou qui exerce un contrôle (art. R. 561-1 CMF). On l'identifie et on consulte le registre des bénéficiaires effectifs.</td></tr><tr><td><b>3</b></td><td>La PPE non repérée</td><td>Les <b>membres de la famille</b> d'une personne politiquement exposée, dont le conjoint, sont eux-mêmes PPE (art. R. 561-18 CMF). Vigilance renforcée : origine du patrimoine et des fonds, accord d'un membre de la direction.</td></tr><tr><td><b>4</b></td><td>Le gel reporté</td><td>Une mesure de gel s'applique <b>sans délai</b> : aucun fonds ne doit être mis à disposition de la personne visée, et l'établissement en informe la DG Trésor (art. L. 562-4 et suivants CMF).</td></tr><tr><td><b>5</b></td><td>Le client prévenu</td><td>Révéler l'existence d'une déclaration de soupçon est <b>interdit</b> (art. L. 561-18 CMF) et puni d'une amende de 22 500 € (art. L. 574-1 CMF). On demande des justificatifs, sans jamais évoquer Tracfin.</td></tr><tr><td><b>6</b></td><td>La déclaration au mauvais endroit</td><td>La déclaration est faite par le <b>déclarant désigné</b> auprès de Tracfin. Elle est <b>confidentielle</b> : elle ne figure jamais dans le dossier commercial du client, consultable par d'autres collaborateurs et communicable au client.</td></tr></tbody></table>
+</div>
+
+<h2><span class="num">3 ·</span>Ce qu'il faut en retenir</h2>
+<div class="carte"><div class="enc"><span class="t">CE QUE CE RENDEZ-VOUS MONTRE</span>Thomas voulait signer vite. Il a sauté l'identification, ignoré les bénéficiaires effectifs, raté une PPE, retardé un gel, prévenu le client et exposé la déclaration.</div><div class="enc al"><span class="t">CE QU'IL RISQUE</span>Une amende pénale pour la divulgation, des sanctions disciplinaires et, pour l'établissement, une sanction de l'ACPR qui peut atteindre 100 M€ ou 10 % du chiffre d'affaires.</div><div class="enc ci"><span class="t">LA RÈGLE OPÉRATIONNELLE</span>Identifier et vérifier, chercher la personne physique, repérer la PPE, geler sans délai, se taire face au client, transmettre au correspondant.</div>
+</div>
+</div>
+
+<footer>TMK Performances - N° Siret : 49841924100027 - Code NAF : 8559A</footer>
+</div>
+</body></html>
